@@ -250,6 +250,7 @@
      let docCount = 0; 
      let imageCount = 0; 
      let videoCount = 0; 
+     let audioCount = 0; 
 
      for (let i = 0; i < files.length; i++) {
          const type = files[i].type;
@@ -259,13 +260,16 @@
              imageCount++;
          } else if (type === 'Video') {
              videoCount++;
-         }
+         } else if (type === 'Audio') {
+            audioCount++;
+        }
      }
 
      document.getElementById('totalFiles').textContent = total;
      document.getElementById('totalDocs').textContent = docCount;
      document.getElementById('totalImages').textContent = imageCount;
      document.getElementById('totalVideos').textContent = videoCount;
+     document.getElementById('totalAudios').textContent = audioCount;
  }
 
  function updateStorageInfo() {
