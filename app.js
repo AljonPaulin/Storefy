@@ -5,6 +5,7 @@
  const MAX_STORAGE = 100;
 
  
+
  function getFileIcon(type) {
      if (type === 'Document') {
          return '📄';
@@ -21,6 +22,7 @@
      }
  }
 
+ // Get the current date
  function getCurrentDate() {
      const now = new Date();
      const month = now.getMonth() + 1;
@@ -30,6 +32,8 @@
      return month + '/' + day + '/' + year;
  }
 
+
+ // For uploading the type of file
  function uploadFile() {
      const name = document.getElementById('fileName').value.trim(); 
      const type = document.getElementById('fileType').value; 
@@ -72,7 +76,9 @@
      alert('✅ File uploaded successfully!');
  }
 
- function filterFiles(type,event) {
+
+ // filtering the file base on type
+ function filterFiles(type, event) {
      if(type === currentFilter) return
     
      currentFilter = type;
@@ -86,6 +92,8 @@
      renderFiles();
  }
 
+
+ // for changing between grid or list view of files
  function toggleView(view) {
      currentView = view;
 
@@ -99,6 +107,8 @@
      renderFiles();
  }
 
+
+ //For deleting specific file
  function deleteFile(id) {
      if (confirm('Are you sure you want to delete this file?')) {
          files = files.filter(file => file.id !== id);
@@ -109,6 +119,8 @@
      }
  }
 
+
+ //For renaming specific file
  function renameFile(id) {
      let foundFile = null;
      for (let i = 0; i < files.length; i++) {
@@ -128,6 +140,8 @@
      }
  }
 
+
+ // For just displaying like download but not really downloading
  function downloadFile(id) {
      for (let i = 0; i < files.length; i++) {
          if (files[i].id === id) {
@@ -245,6 +259,7 @@
      display.appendChild(list);
  }
 
+ //Updating how many type of files in the system
  function updateStats() {
      const total = files.length;
      let docCount = 0; 
@@ -261,7 +276,7 @@
          } else if (type === 'Video') {
              videoCount++;
          } else if (type === 'Audio') {
-            audioCount++;
+             audioCount++;
         }
      }
 
@@ -272,6 +287,8 @@
      document.getElementById('totalAudios').textContent = audioCount;
  }
 
+
+ //Updating the storage for how many storage is still there
  function updateStorageInfo() {
      let totalUsed = 0; 
 
