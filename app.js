@@ -5,21 +5,22 @@
  const MAX_STORAGE = 100;
 
  
-
+ // displaying the icon of each type of file
  function getFileIcon(type) {
-     if (type === 'Document') {
-         return '📄';
-     } else if (type === 'Image') {
-         return '🖼️';
-     } else if (type === 'Video') {
-         return '🎥';
-     } else if (type === 'Audio') {
-         return '🎵';
-     } else if (type === 'Folder') {
-         return '📁';
-     } else {
-         return '📋';
-     }
+    switch (type) {
+        case 'Document':
+            return '📄';
+        case 'Image':
+            return '🖼️';
+        case 'Video':
+            return '🎥';
+        case 'Audio':
+            return '🎵';
+        case 'Folder':
+            return '📁';
+        default:
+            return '📋';
+    }
  }
 
  // Get the current date
@@ -94,7 +95,7 @@
 
 
  // for changing between grid or list view of files
- function toggleView(view) {
+ function toggleView(view, event) {
      currentView = view;
 
      const viewButtons = document.querySelectorAll('.view-btn');
