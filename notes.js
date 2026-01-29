@@ -1,3 +1,5 @@
+ // ALL FUNCTIONS IS JAVASCIPT FUNCTIONS IN MODULE5 WHICH IS TO CREATE FUNCTIONS
+ 
  // MODULE 2 DECLARING VARIABLES
  let files = [];
  let currentFilter = 'All'; 
@@ -144,6 +146,7 @@
  //For renaming specific file
  function renameFile(id) {
      let foundFile = null;
+     //MODULE 4 LOOPS
      for (let i = 0; i < files.length; i++) {
          if (files[i].id === id) {
              foundFile = files[i];
