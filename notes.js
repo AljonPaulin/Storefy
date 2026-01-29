@@ -1,3 +1,4 @@
+ // MODULE 2 DECLARING VARIABLES
  let files = [];
  let currentFilter = 'All'; 
  let currentView = 'grid';
@@ -6,7 +7,8 @@
 
  
 
- // displaying the icon of each type of file
+ // MODULE 3 : LOGICAL STATEMENT this is a switch statement
+ // displaying the icon of each type of file like if the file is document type then document icon will display
  function getFileIcon(type) {
     switch (type) {
         case 'Document':
@@ -24,40 +26,49 @@
     }
  }
 
+
+ // MODULE 6 BUILT-IN JAVASCRIPT METHOD
+ // This is a method that is already javascipt method
  // Get the current date
  function getCurrentDate() {
-     const now = new Date();
-     const month = now.getMonth() + 1;
-     const day = now.getDate();
-     const year = now.getFullYear();
+     const now = new Date();   // get the date now
+     const month = now.getMonth() + 1; // built-in javascipt method to get the month
+     const day = now.getDate(); // built-in javascipt method to get the exact day
+     const year = now.getFullYear(); // built-in javascipt method to get the year
      
-     return month + '/' + day + '/' + year;
+     return month + '/' + day + '/' + year; // it will return the text of all exact date
  }
 
 
  // For uploading the type of file
  function uploadFile() {
-     const name = document.getElementById('fileName').value.trim(); 
-     const type = document.getElementById('fileType').value; 
-     const sizeInput = document.getElementById('fileSize').value;
-     const size = parseFloat(sizeInput); 
+     const name = document.getElementById('fileName').value.trim(); // get the name in the input box
+     const type = document.getElementById('fileType').value; // get the type of file
+     const sizeInput = document.getElementById('fileSize').value; // get the number of size of the example file
+     const size = parseFloat(sizeInput); // change the whole number to decimal
 
+
+     // checking if the name is not blank if you click the upload file
      if (name === '') {
          alert('Please enter a file name!');
          return;
      }
 
+     // create temporary storage first
      let currentStorage = 0;
-     
+
+     // loop through all files to add all the file size
      for (let i = 0; i < files.length; i++) {
          currentStorage += files[i].size;
      }
 
+     // checking if the storage if full
      if (currentStorage + size > MAX_STORAGE) {
          alert('Not enough storage space! Delete some files first.');
          return;
      }
 
+     // create new file
      const newFile = {
          id: fileIdCounter++, 
          name: name,         
@@ -66,31 +77,39 @@
          uploadDate: getCurrentDate()
      };
 
+     // push the file or adding the file in the array
      files.push(newFile);
 
+     // reset the filename and size to become empty
      document.getElementById('fileName').value = '';
      document.getElementById('fileSize').value = '';
 
-     renderFiles();
-     updateStats();
-     updateStorageInfo();
+     renderFiles(); // render all display update list of files
+     updateStats(); // update the status to count how many files are there
+     updateStorageInfo(); // update the storage info
 
-     alert('✅ File uploaded successfully!');
+     alert('✅ File uploaded successfully!'); // display the status
  }
 
 
- // filtering the file base on type
+ // filtering the what files to display base on type of files
+ // same function for all buttons
  function filterFiles(type, event) {
+
+     // checking the type first to avoid duplication or running the function twice with the button click multiple times
      if(type === currentFilter) return
     
      currentFilter = type;
-     const filterButtons = document.querySelectorAll('.filter-btn');
+     const filterButtons = document.querySelectorAll('.filter-btn'); // select all filter buttons
+     // remove the active class of all buttons which is the one responsible to color the button into  blue
      filterButtons.forEach(btn => {
          btn.classList.remove('active');
      });
 
+     // add blue the specific button base on where the user click
      event.target.classList.add('active');
 
+     // render again but filtered files only
      renderFiles();
  }
 
@@ -115,9 +134,9 @@
      if (confirm('Are you sure you want to delete this file?')) {
          files = files.filter(file => file.id !== id);
          
-         renderFiles();
-         updateStats();
-         updateStorageInfo();
+         renderFiles(); // display all files withtout the deleted files
+         updateStats(); // update the status or the number files still exist in the system
+         updateStorageInfo(); // update info like the storage
      }
  }
 
@@ -142,6 +161,17 @@
      }
  }
 
+
+ // For just displaying like download but not really downloading
+ function downloadFile(id) {
+     for (let i = 0; i < files.length; i++) {
+         if (files[i].id === id) {
+             alert(`📥 Downloading: ${files[i].name} (${files[i].size} MB)`);
+             break;
+         }
+     }
+ }
+
  // displaying files in the system
  function renderFiles() {
      const display = document.getElementById('filesDisplay');
@@ -160,6 +190,7 @@
          }
      }
 
+     // if there no file then display like empty icon to no files found
      if (filteredFiles.length === 0) {
          display.innerHTML = `
              <div class="empty-state">
@@ -195,8 +226,9 @@
              <div class="file-name">${file.name}</div>
              <div class="file-info">${file.size} MB • ${file.uploadDate}</div>
              <div class="file-actions">
-                 <button class="action-btn btn-rename" onclick="renameFile(${file.id})">Edit</button>
-                 <button class="action-btn btn-delete" onclick="deleteFile(${file.id})">Delete</button>
+                 <button class="action-btn btn-download" onclick="downloadFile(${file.id})">📥</button>
+                 <button class="action-btn btn-rename" onclick="renameFile(${file.id})">✏️</button>
+                 <button class="action-btn btn-delete" onclick="deleteFile(${file.id})">🗑️</button>
              </div>
          `;
 
@@ -237,8 +269,9 @@
              <div class="list-info">${file.type}</div>
              <div class="list-info">${file.uploadDate}</div>
              <div class="file-actions">
-                 <button class="action-btn btn-rename" onclick="renameFile(${file.id})">Edit</button>
-                 <button class="action-btn btn-delete" onclick="deleteFile(${file.id})">Delete</button>
+                 <button class="action-btn btn-download" onclick="downloadFile(${file.id})">📥</button>
+                 <button class="action-btn btn-rename" onclick="renameFile(${file.id})">✏️</button>
+                 <button class="action-btn btn-delete" onclick="deleteFile(${file.id})">🗑️</button>
              </div>
          `;
 
@@ -293,3 +326,13 @@
          `${totalUsed} MB used of ${MAX_STORAGE} MB (${percentage}%)`;
  }
 
+ // Starting Function
+ function runStart() {
+     renderFiles();
+     updateStats();
+     updateStorageInfo();
+ }
+
+
+ // start
+ runStart();
